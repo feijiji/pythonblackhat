@@ -15,12 +15,11 @@ web_paths = Queue.Queue()
 for r,d,f in os.walk("."):
     for files in f:
         remote_path = "%s/%s" % (r,files)
-       #print remote_path
         if remote_path.startswith("."):
             remote_path = remote_path[1:]
-        if os.path.splitext(files)[1] not in files:
+        if os.path.splitext(files)[1] not in filters:
             web_paths.put(remote_path)
-        print remote_path
+
 def test_remote():
     while not web_paths.empty():
         path = web_paths.get()
@@ -41,3 +40,4 @@ for i in range(threads):
      print "Spawning thread:%d" % i
      t = threading.Thread(target=test_remote)
      t.start()
+     
